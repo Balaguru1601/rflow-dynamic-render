@@ -1,7 +1,7 @@
-import { useCallback } from "react";
+
 import { Handle, Position } from "react-flow-renderer";
 
-const handleStyle = { height: "o.5px", width: "0.5px", left: 0, border: 0 };
+const handleStyle = { height: "0.5px", width: "0.5px", left: 0, border: 0 };
 
 function TextUpdaterNode({ data }) {
 

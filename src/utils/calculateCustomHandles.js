@@ -24,6 +24,8 @@ const calculateHandles = (data) => {
 				? upperChild.push(data.child[i])
 				: lowerChild.push(data.child[i]);
     }
+    children.push(...upperChild.reverse());
+    children.push(...lowerChild);
 
 	let generatedHandles = [];
     if (data.side === "left") handleStyle.left = -1;

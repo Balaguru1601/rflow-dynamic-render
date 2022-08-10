@@ -1,5 +1,5 @@
 import { cooridinates, nodes } from "../Components/Example/InitialElements";
-import calculateHandles from "./calculateCustomHandles";
+import calculateHandles from "./calculateCustomHandles.js";
 
 const childPadding = 5;
 let generatedHandles = [];
@@ -72,6 +72,7 @@ const calculator = (
     );
     handleDescriptors.parent = parent;
     handleDescriptors[`${parent}GeneratedHandles`] = generatedHandles;
+    console.log(generatedHandles)
 	return endResult;
 };
 

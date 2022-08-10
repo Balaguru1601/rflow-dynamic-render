@@ -15,6 +15,7 @@ const createEdges = (data) => {
     for (let i = 0; i < data.noOfChildren; i++){
         edgeProps.target = data.children[i];
         edgeProps.sourceHandle = `${data.parent}-${data.children[i]}`;
+        edgeProps.id = `${data.parent}-${data.children[i]}-edge`;
         edgeProps.key = `${data.parent}-${data.children[i]}`;
         createdEdges.push({ ...edgeProps });
     };

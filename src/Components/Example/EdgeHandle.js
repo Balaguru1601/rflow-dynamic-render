@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { Handle, Position } from "react-flow-renderer";
 import { handleDescriptors } from "../../utils/calculateSubNodes";
 import classes from "./EdgeHandle.module.css";
