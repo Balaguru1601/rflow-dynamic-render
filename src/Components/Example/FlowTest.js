@@ -1,27 +1,47 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import ReactFlow, {
     addEdge,
-    Controls,
 	Background,
 	useNodesState,
     useEdgesState,
-    Position,
-    getRectOfNodes
 } from "react-flow-renderer";
+import createEdges from "../../utils/calculateCustomEdges";
+import { calculator } from "../../utils/calculateSubNodes";
+import { CourseHandle, InternshipHandle, JobsHandle } from "./EdgeHandle";
 
 import {
 	nodes as initialNodes,
 	edges as initialEdges,
 } from "./InitialElements";
-
-const onInit = (reactFlowInstance) =>
-    console.log("flow loaded:", reactFlowInstance);
     
-console.log(Position);
+const nodeTypes = { Course: CourseHandle,Internship: InternshipHandle,Job: JobsHandle };
+const arr = ["hsdkh", "jkdkj", "jdsk", "jhacs", "jshd","lkvlk","nmcxkn"];
+const arr2 = ["web dev", "UI/UX", "AWS", "Java", "web de", "UI/U", "jhbhj"];
 
 const FlowTest = () => {
-	const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+    const subs2 = useMemo(() => calculator(arr2,"Courses"),[]);
+    const subs = useMemo(
+		() =>
+			calculator(
+				arr,
+				"Internships"
+			),
+		[]
+    );
+    
+    const customInternshipEdges = createEdges({ children: arr, parent: "Internships", noOfChildren: arr.length });
+    const customCourseEdges = createEdges({
+		children: arr2,
+		parent: "Courses",
+		noOfChildren: arr2.length,
+	});
+
+	const [nodes, setNodes, onNodesChange] = useNodesState([...initialNodes,...subs,...subs2]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([
+		...initialEdges,
+        ...customInternshipEdges,
+        ...customCourseEdges,
+	]);
 	const onConnect = useCallback(
         (params) => {
             console.log(params);
@@ -30,40 +50,19 @@ const FlowTest = () => {
                 return addEdge(params, eds);
             });
         },
-		[]
+		[setEdges]
 	);
-
-    const r = getRectOfNodes(nodes);
-    console.log(r);
-
 	return (
 		<ReactFlow
 			nodes={nodes}
 			edges={edges}
 			onNodesChange={onNodesChange}
 			onEdgesChange={onEdgesChange}
-			onConnect={onConnect}
-			onInit={onInit}
+            onConnect={onConnect}
+            nodeTypes={nodeTypes}
 			fitView
 			attributionPosition="top-right"
 		>
-			{/* <MiniMap
-				nodeStrokeColor={(n) => {
-					if (n.style?.background) return n.style.background;
-					if (n.type === "input") return "#0041d0";
-					if (n.type === "output") return "#ff0072";
-					if (n.type === "default") return "#1a192b";
-
-					return "#eee";
-				}}
-				nodeColor={(n) => {
-					if (n.style?.background) return n.style.background;
-
-					return "#fff";
-				}}
-				nodeBorderRadius={2}
-			/> */}
-			{/* <Controls /> */}
 			<Background color="#aaa" gap={16} />
 		</ReactFlow>
 	);

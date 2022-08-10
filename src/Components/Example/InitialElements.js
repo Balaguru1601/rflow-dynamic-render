@@ -8,21 +8,23 @@ export const cooridinates = {
 export const nodes = [
 	{
 		id: "Courses",
-		type: "input",
+		type: "Course",
 		data: {
 			label: "Courses",
 		},
 		position: { x: 0, y: 0 },
-		targetPosition: "bottom",
+        targetPosition: "bottom",
+        
 	},
 	{
 		id: "Internships",
 		data: {
 			label: "Internships",
 		},
-		position: { x: 0, y: 200 },
+        position: { x: 0, y: 200 },
+        type: "Internship",
 		targetPosition: "top",
-		sourcePosition: "bottom",
+        sourcePosition: "bottom",
 	},
 	{
 		id: "Jobs",
@@ -30,37 +32,36 @@ export const nodes = [
 			label: "Jobs",
 		},
 		position: { x: 0, y: 400 },
-		type: "output",
+		type: "Job",
 		sourcePosition: "top",
-	},
-	{
-		id: "4",
-		data: {
-			label: "Jobs",
-		},
-		position: { x: -250, y: -27 },
-		type: "output",
-		sourcePosition: "top",
-		style: {
-			padding: 5,
-		},
-	},
-	{
-		id: "5",
-		data: {
-			label: "Jobs",
-		},
-		position: { x: -250, y: 32 },
-		type: "output",
-		sourcePosition: "top",
-		style: {
-			padding: 5,
-		},
 	},
 ];
 
 export const edges = [
-	{ id: "courses-internships", source: "1", target: "2",animated: true },
-	{ id: "internships-jobs", source: "1", target: "3",animated:true },
-	
+	{
+		id: "courses-internships",
+		source: "Courses",
+		target: "Internships",
+		animated: true,
+		markerEnd: {
+			type: MarkerType.Arrow,
+			width: 30,
+			height: 40,
+		},
+        sourceHandle: "Courses-source",
+        key: 3
+	},
+	{
+		id: "internships-jobs",
+		source: "Internships",
+		target: "Jobs",
+		animated: true,
+		markerEnd: {
+			type: MarkerType.Arrow,
+			width: 30,
+			height: 40,
+        },
+        sourceHandle: "Internships-source",
+        key: 88
+	},
 ];
