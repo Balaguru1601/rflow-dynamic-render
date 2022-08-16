@@ -72,7 +72,6 @@ const calculator = (
     );
     handleDescriptors.parent = parent;
     handleDescriptors[`${parent}GeneratedHandles`] = generatedHandles;
-    console.log(generatedHandles)
 	return endResult;
 };
 

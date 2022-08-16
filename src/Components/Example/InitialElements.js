@@ -13,18 +13,19 @@ export const nodes = [
 			label: "Courses",
 		},
 		position: { x: 0, y: 0 },
-        targetPosition: "bottom",
-        
+		targetPosition: "bottom",
+        draggable: false,
 	},
 	{
 		id: "Internships",
 		data: {
 			label: "Internships",
 		},
-        position: { x: 0, y: 200 },
-        type: "Internship",
+		position: { x: 0, y: 200 },
+		type: "Internship",
 		targetPosition: "top",
-        sourcePosition: "bottom",
+		sourcePosition: "bottom",
+		draggable: false,
 	},
 	{
 		id: "Jobs",
@@ -34,6 +35,7 @@ export const nodes = [
 		position: { x: 0, y: 400 },
 		type: "Job",
 		sourcePosition: "top",
+		draggable: false,
 	},
 ];
 

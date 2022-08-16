@@ -1,0 +1,17 @@
+.wrapperAnchor{
+    text-decoration: none;
+    float: right;
+}
+
+.custPaper{
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1rem;
+}
+
+.courseImg{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
