@@ -1,0 +1,15 @@
+.custPaper{
+    width: 85%;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.mainHeader{
+    text-align: center;
+}
+.closeBtn{
+    display: inline !important;
+    padding: 0 !important;
+    float: right;
+}

@@ -1,40 +1,109 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import ReactFlow, {
-    addEdge,
-    Controls,
+	addEdge,
 	Background,
 	useNodesState,
-    useEdgesState,
-    Position,
-    getRectOfNodes
+	useEdgesState,
 } from "react-flow-renderer";
+import createEdges from "../../utils/calculateCustomEdges";
+import { calculator } from "../../utils/calculateSubNodes";
+import CustomDrawer from "../Drawer/CustomDrawer";
+import { CourseHandle, InternshipHandle, JobsHandle } from "./EdgeHandle";
 
 import {
 	nodes as initialNodes,
 	edges as initialEdges,
 } from "./InitialElements";
 
-const onInit = (reactFlowInstance) =>
-    console.log("flow loaded:", reactFlowInstance);
-    
-console.log(Position);
+const nodeTypes = {
+	Course: CourseHandle,
+	Internship: InternshipHandle,
+	Job: JobsHandle,
+};
+const arr = [
+	"React developer",
+	"Spring boot development",
+	"Django developer",
+	"Product design",
+];
+const arr2 = [
+	"Web development",
+	"UI/UX designing",
+	"AWS-Cloud computing",
+	"Java",
+];
+const arr3 = [
+	"Software engineering",
+	"UI/UX designer",
+	"Cloud computing",
+	"Java developer",
+	".NET developer",
+];
 
 const FlowTest = () => {
-	const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-	const onConnect = useCallback(
-        (params) => {
-            console.log(params);
-            return setEdges((eds) => {
-                console.log(eds);
-                return addEdge(params, eds);
-            });
-        },
-		[]
-	);
+	const [drawerState, setDrawerState] = React.useState({
+		isVisible: false,
+		content: {},
+	});
 
-    const r = getRectOfNodes(nodes);
-    console.log(r);
+	const toggleDrawer = (node) =>
+		setDrawerState((prevState) => ({
+			content: { ...node },
+			isVisible: !prevState.isVisible,
+		}));
+
+	const closeDrawer = () =>
+		setDrawerState((prevState) => ({
+			content: {},
+			isVisible: !prevState.isVisible,
+		}));
+
+	const subs2 = useMemo(() => calculator(arr2, "Courses"), []);
+	const subs = useMemo(() => calculator(arr, "Internships"), []);
+	const subs3 = useMemo(() => calculator(arr3, "Jobs"), []);
+
+	const customInternshipEdges = createEdges({
+		children: arr,
+		parent: "Internships",
+		noOfChildren: arr.length,
+	});
+
+	const customCourseEdges = createEdges({
+		children: arr2,
+		parent: "Courses",
+		noOfChildren: arr2.length,
+	});
+
+	const customJobEdges = createEdges({
+		children: arr3,
+		parent: "Jobs",
+		noOfChildren: arr3.length,
+	});
+
+	const [nodes, setNodes, onNodesChange] = useNodesState([
+		...initialNodes,
+		...subs,
+		...subs2,
+		...subs3,
+	]);
+
+	const [edges, setEdges, onEdgesChange] = useEdgesState([
+		...initialEdges,
+		...customInternshipEdges,
+		...customCourseEdges,
+		...customJobEdges,
+	]);
+
+	const onConnect = useCallback(
+		(params) => {
+			console.log(params);
+			return setEdges((eds) => {
+				console.log(eds);
+				return addEdge(params, eds);
+			});
+		},
+		[setEdges]
+	);
 
 	return (
 		<ReactFlow
@@ -43,27 +112,18 @@ const FlowTest = () => {
 			onNodesChange={onNodesChange}
 			onEdgesChange={onEdgesChange}
 			onConnect={onConnect}
-			onInit={onInit}
+			nodeTypes={nodeTypes}
+			onNodeClick={(event, node) => toggleDrawer(node)}
 			fitView
 			attributionPosition="top-right"
 		>
-			{/* <MiniMap
-				nodeStrokeColor={(n) => {
-					if (n.style?.background) return n.style.background;
-					if (n.type === "input") return "#0041d0";
-					if (n.type === "output") return "#ff0072";
-					if (n.type === "default") return "#1a192b";
-
-					return "#eee";
-				}}
-				nodeColor={(n) => {
-					if (n.style?.background) return n.style.background;
-
-					return "#fff";
-				}}
-				nodeBorderRadius={2}
-			/> */}
-			{/* <Controls /> */}
+			{drawerState.isVisible && (
+				<CustomDrawer
+					isVisible={drawerState.isVisible}
+					closeDrawer={closeDrawer}
+					node={drawerState.content}
+				/>
+			)}
 			<Background color="#aaa" gap={16} />
 		</ReactFlow>
 	);

@@ -1,0 +1,14 @@
+.customNode {
+    border :1px solid #1a192b;
+    color: #222;
+
+    padding: 10px;
+    text-align: center;
+    border-radius: 3px;
+    font-size: 12px;
+    width: 150px;
+        box-sizing: border-box;
+    pointer-events: all;
+    /* position: absolute; */
+    transform-origin: 0 0;
+}

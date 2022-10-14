@@ -1,10 +1,9 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+// import TemporaryDrawer from './Components/Drawer/demo';
 import FlowTest from "./Components/Example/FlowTest";
-import { Fragment } from 'react';
 
 function App() {
-    return (
+	return (
 		<div className="App">
 			<FlowTest></FlowTest>
 		</div>
